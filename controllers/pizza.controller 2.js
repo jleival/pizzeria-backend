@@ -1,20 +1,9 @@
-import { pizzaModel } from "../models/pizza.model.js";
+import { Router } from "express";
+import { readPizzas, readPizza } from "../controllers/pizza.controller.js";
 
-const readPizzas = async (req, res) => {
-  const pizzas = await pizzaModel.getPizzas();
-  res.json(pizzas);
-};
+const router = Router();
 
-const readPizza = async (req, res) => {
-  const { id } = req.params;
-  const pizza = await pizzaModel.getPizza(id.toLowerCase());
-  if (!pizza) {
-    return res.status(404).json({ message: "Pizza not found" });
-  }
-  res.json(pizza);
-};
+router.get("/", readPizzas);
+router.get("/:id", readPizza);
 
-export const pizzaController = {
-  readPizzas,
-  readPizza,
-};
+export default router;
